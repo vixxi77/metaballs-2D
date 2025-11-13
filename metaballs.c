@@ -11,29 +11,39 @@ typedef struct {
 } Pixel;
 
 typedef struct {
-	int x;
-	int y;
+	int x, y;
 	int radius;
 } Metaball;
 
-Pixel pixels[WIDTH*HEIGHT];
+void draw_circle(Metaball *metaball){
+	int x, y, r2, height;	
+	r2 = metaball->radius*metaball->radius;
+
+	for(x = -metaball->radius; x <= metaball->radius; x++){
+		height = (int)sqrt((double)(r2 - x * x));
+		for(y = -height; y <= height; y++){
+			DrawPixel(metaball->x + x, metaball->y + y, BLUE);	
+		}
+	}
+
+}
+
+void circle_follow_cursor(Metaball *metaball){
+	metaball->x = GetMousePosition().x;
+	metaball->y = GetMousePosition().y;
+}
+
 
 int main(){
 	SetConfigFlags(FLAG_VSYNC_HINT);
 	InitWindow(WIDTH, HEIGHT, "Metaballz");
 	SetTargetFPS(60);
-	Metaball metaball = {250, 250, 50};
-	int x, y, r2;	
-	r2 = metaball.radius*metaball.radius;
-		
+	Metaball metaball = {400, 400, 100};
 	
 	while(!WindowShouldClose()){
 		BeginDrawing();
-		for(x = -metaball.radius; x <= metaball.radius; x++){
-			y = (int) sqrt(r2 - x*x) + 0.5;
-			DrawPixel(metaball.x + x, metaball.y + y, BLUE);
-			DrawPixel(metaball.x + x, metaball.y - y, BLUE);
-		}
+		circle_follow_cursor(&metaball);
+		draw_circle(&metaball);
 		ClearBackground(WHITE);
 		EndDrawing();
 	}	
