@@ -15,7 +15,8 @@ typedef struct {
 	int radius;
 } Metaball;
 
-void draw_circle(Metaball *metaball, const Color *_color){
+void 
+draw_circle(Metaball *metaball, const Color *_color){
 	int x, y, r2, height;	
 	r2 = metaball->radius*metaball->radius;
 
@@ -27,17 +28,8 @@ void draw_circle(Metaball *metaball, const Color *_color){
 	}
 }
 
-void draw_test_circle(double x,  double y, double radius){
-	for(double i = x - radius; i < x + radius; i++){
-		for(double j = y - radius; j < y + radius; j++){
-			double dist = sqrt(pow(i - x, 2) + pow(j - y, 2));
-			if(dist < radius)
-				DrawRectangle(i, j, 1, 1, BLUE);	
-		}
-	}
-}
-
-void circle_follow_cursor(Metaball *metaball){
+void 
+circle_follow_cursor(Metaball *metaball){
 	metaball->x = GetMousePosition().x;
 	metaball->y = GetMousePosition().y;
 }
